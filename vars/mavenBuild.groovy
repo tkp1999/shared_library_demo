@@ -1,4 +1,4 @@
-import com.tkp1999.utils.GitUtils
+import com.tkp1999.utils.*
 def call(Map config) {
     node(config.nodeLabel) {
         stage('Checkout') {
