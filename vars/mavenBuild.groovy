@@ -2,7 +2,7 @@ def call(Map config) {
     node(config.nodeLabel) {
         stage('Checkout') {
             script {
-                def gitUtils = com.tkp1999.utils.GitUtils()
+                def gitUtils = new com.tkp1999.utils.GitUtils()
                 gitUtils.checkoutRepo(
                     url: config.repoUrl,
                     branch: config.branch
