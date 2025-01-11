@@ -18,5 +18,6 @@ class GitUtils {
         sh "git tag ${tagName}"
         sh "git push ${repoUrl} ${tagName}"
     }
+    */
 }
-*/
+
