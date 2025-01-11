@@ -11,7 +11,7 @@ class GitUtils {
                   userRemoteConfigs: [[url: repoUrl]]
         ])
     }
-
+/*
     def createAndPushTag(String repoUrl, String buildNumber) {
         def tagName = "build-${buildNumber}"
         println "Creating tag: ${tagName}"
@@ -19,3 +19,4 @@ class GitUtils {
         sh "git push ${repoUrl} ${tagName}"
     }
 }
+*/

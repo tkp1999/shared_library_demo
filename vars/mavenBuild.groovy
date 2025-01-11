@@ -2,13 +2,14 @@ def call(Map config) {
     node(config.nodeLabel) {
         stage('Checkout') {
             script {
-                def gitUtils = new com.company.utils.GitUtils()
+                def gitUtils = com.tkp1999.utils.GitUtils()
                 gitUtils.checkoutRepo(
                     url: config.repoUrl,
                     branch: config.branch
                 )
             }
         }
+        /*
         stage('Build') {
             script {
                 sh "mvn clean install"
@@ -20,5 +21,6 @@ def call(Map config) {
                 gitUtils.createAndPushTag(config.repoUrl, config.buildNumber)
             }
         }
+        */
     }
 }
