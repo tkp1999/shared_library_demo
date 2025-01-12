@@ -24,7 +24,10 @@ def call(Closure body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-
+    echo "Parameters received in mavenBuild:"
+    echo "Branch: ${config.branch}"
+    echo "Repo URL: ${config.repoUrl}"
+    echo "Build Number: ${config.buildNumber}"
     node {
         stage('Checkout') {
             script {
