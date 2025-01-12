@@ -55,7 +55,7 @@ def call(Closure body) {
 
 */
 
-def call(Closure body) {
+def call(body) {
     def config = [:] // Initialize a Map to store parameters
     
     // Execute the closure to gather parameters from Jenkinsfile
