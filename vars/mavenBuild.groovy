@@ -63,6 +63,9 @@ def call(body) {
     body.delegate = config
     body()
 
+    //added line to get the buildNumber
+    def buildNumber = System.getenv('BUILD_NUMBER') ?: 'local-build'
+
     // Now config contains the parameters passed from Jenkinsfile
     echo "Parameters received in mavenBuild:"
     echo "Branch: ${config.branch}"
