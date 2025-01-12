@@ -36,13 +36,14 @@ def call(Closure body) {
                 )
             }
         }
-
+/*
         stage('Build') {
             script {
                 // Example: Print the build number (or replace with actual build commands)
                 echo "Building project with build number: ${config.buildNumber}"
             }
         }
+        */
     }
 }
 
