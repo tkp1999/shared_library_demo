@@ -65,12 +65,13 @@ def call(body) {
 
     //added line to get the buildNumber
     def buildNumber = System.getenv('BUILD_NUMBER') ?: 'local-build'
+    echo "Build Number: ${buildNumber}"
 
     // Now config contains the parameters passed from Jenkinsfile
     echo "Parameters received in mavenBuild:"
     echo "Branch: ${config.branch}"
     echo "Repo URL: ${config.repoUrl}"
-    echo "Build Number: ${config.buildNumber}"
+    //echo "Build Number: ${config.buildNumber}"
 
     // Validation for parameters
     if (!config.repoUrl?.trim()) {
