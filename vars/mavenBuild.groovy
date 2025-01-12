@@ -54,7 +54,7 @@ def call(Closure body) {
 }
 
 */
-/*
+
 def call(Closure body) {
     def config = [:] // Initialize a Map to store parameters
     
@@ -100,31 +100,4 @@ def call(Closure body) {
         // Add any other stages (e.g., test, deploy) as required.
     }
 }
-*/
-// mavenBuild function inside your shared library
-def call(Map config) {
-    // Debugging output to check received parameters
-    echo "Received parameters in mavenBuild:"
-    echo "Branch: ${config.branch}"
-    echo "Repo URL: ${config.repoUrl}"
-    echo "Build Number: ${config.buildNumber}"
 
-    // Rest of the mavenBuild function logic
-    node(config.nodeLabel) {
-        stage('Checkout') {
-            script {
-                def gitUtils = new GitUtils(this)
-                gitUtils.checkoutRepo(
-                    url: config.repoUrl,
-                    branch: config.branch
-                )
-            }
-        }
-
-        // Here, you can add your build logic, using the parameters.
-        stage('Build') {
-            echo "Build Number inside mavenBuild: ${config.buildNumber}"
-            // Add maven build steps here
-        }
-    }
-}
