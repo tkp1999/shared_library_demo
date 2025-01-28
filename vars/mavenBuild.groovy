@@ -84,7 +84,7 @@ def call(body) {
     echo "Maven Version: ${config.mavenVersion}"
     echo "Docker Registry: ${config.dockerRegistry}"
     echo "Image Name: ${config.imageName}"
-    echo "docker credentialsid: ${dockerCredentialsId}"
+    echo "docker credentialsid: ${config.dockerCredentialsId}"
 
     // Validation for parameters
     if (!config.repoUrl?.trim()) {
