@@ -47,8 +47,8 @@ class DockerUtils {
                 echo "Logging in to Docker registry..."
                 //echo \$DOCKER_PASS | docker login ${registryUrl} -u \$DOCKER_USER --password-stdin
                 //echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
-                //docker login -u \$DOCKER_USER -p \$DOCKER_PASS
-                docker login -u '$DOCKER_USER' -p '$DOCKER_PASS'
+                docker login -u \$DOCKER_USER -p \$DOCKER_PASS
+                //docker login -u '$DOCKER_USER' -p '$DOCKER_PASS'
                 script.echo "login succeeded"
                 //docker build -t ${registryUrl}/${imageName}:${tag} .
                 docker build -t ${DOCKER_USER}/${imageName}:${tag} .
