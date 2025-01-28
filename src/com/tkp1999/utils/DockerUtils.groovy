@@ -37,10 +37,11 @@ class DockerUtils {
         def registryUrl = config.registryUrl ?: 'https://index.docker.io/v1/' // Default to Docker Hub if not provided
         def imageName = config.imageName ?: 'default-image-sharedlibrary'
         def tag = config.buildNumber ?: 'latest' // Default to latest if buildNumber is not passed
+        def dockerCredentialsId = config.dockerCredentialsId ?: 'docker-credentials'
 
         //script.echo "Building Docker image: ${registryUrl}/${imageName}:${tag}"
 
-        script.withCredentials([script.usernamePassword(credentialsId: config.dockerCredentialsId, 
+        script.withCredentials([script.usernamePassword(credentialsId: dockerCredentialsId, 
                                                         usernameVariable: 'DOCKER_USER', 
                                                         passwordVariable: 'DOCKER_PASS')]) {
             script.sh """
