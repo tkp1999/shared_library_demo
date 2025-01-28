@@ -38,12 +38,13 @@ class DockerUtils {
         def imageName = config.imageName ?: 'default-image-sharedlibrary'
         def tag = config.buildNumber ?: 'latest' // Default to latest if buildNumber is not passed
 
-        script.echo "Building Docker image: ${registryUrl}/${imageName}:${tag}"
+        //script.echo "Building Docker image: ${registryUrl}/${imageName}:${tag}"
 
         script.withCredentials([script.usernamePassword(credentialsId: config.dockerCredentialsId, 
                                                         usernameVariable: 'DOCKER_USER', 
                                                         passwordVariable: 'DOCKER_PASS')]) {
             script.sh """
+                script.echo "Building Docker image: ${DOCKER_USER}/${imageName}:${tag}"
                 echo "Logging in to Docker registry..."
                 //echo \$DOCKER_PASS | docker login ${registryUrl} -u \$DOCKER_USER --password-stdin
                 //echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
