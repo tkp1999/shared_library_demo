@@ -34,22 +34,22 @@ class DockerUtils {
     }
 
     def dockerBuildAndPush(Map config) {
-        def registryUrl = config.registryUrl ?: 'https://index.docker.io/v1/' // Default to Docker Hub if not provided
+        def registryUrl = config.registryUrl ?: 'https://index.docker.io/v1' // Default to Docker Hub if not provided
         def imageName = config.imageName ?: 'default-image-sharedlibrary'
         def tag = config.buildNumber ?: 'latest' // Default to latest if buildNumber is not passed
         def dockerCredentialsId = config.dockerCredentialsId ?: 'docker-credentials'
 
-        //script.echo "Building Docker image: ${registryUrl}/${imageName}:${tag}"
+        script.echo "Building Docker image: ${registryUrl}/${imageName}:${tag}"
 
         script.withCredentials([script.usernamePassword(credentialsId: dockerCredentialsId, 
                                                         usernameVariable: 'DOCKER_USER', 
                                                         passwordVariable: 'DOCKER_PASS')]) {
             script.sh """
-                script.echo "Building Docker image: ${DOCKER_USER}/${imageName}:${tag}"
+                //script.echo "Building Docker image: ${DOCKER_USER}/${imageName}:${tag}"
                 echo "Logging in to Docker registry..."
-                //echo \$DOCKER_PASS | docker login ${registryUrl} -u \$DOCKER_USER --password-stdin
+                echo \$DOCKER_PASS | docker login ${registryUrl} -u \$DOCKER_USER --password-stdin
                 //echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
-                docker login -u \$DOCKER_USER -p \$DOCKER_PASS
+                //docker login -u \$DOCKER_USER -p \$DOCKER_PASS
                 //docker login -u '$DOCKER_USER' -p '$DOCKER_PASS'
                 script.echo "login succeeded"
                 //docker build -t ${registryUrl}/${imageName}:${tag} .
