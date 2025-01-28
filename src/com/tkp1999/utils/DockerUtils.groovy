@@ -46,7 +46,8 @@ class DockerUtils {
             script.sh """
                 echo "Logging in to Docker registry..."
                 //echo \$DOCKER_PASS | docker login ${registryUrl} -u \$DOCKER_USER --password-stdin
-                echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+                //echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+                docker login -u \$DOCKER_USER -p $DOCKER_PASS
                 docker build -t ${registryUrl}/${imageName}:${tag} .
                 docker push ${registryUrl}/${imageName}:${tag}
                 docker logout ${registryUrl}
