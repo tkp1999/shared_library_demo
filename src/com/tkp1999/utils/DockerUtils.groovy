@@ -25,7 +25,7 @@ class DockerUtils {
 }
 */
 
-
+/*
 class DockerUtils {
     def script // Jenkins Pipeline context
 
@@ -63,5 +63,40 @@ class DockerUtils {
         }
         
         script.echo "Docker image pushed: ${registryUrl}/${imageName}:${tag}"
+    }
+}
+*/
+
+
+class DockerUtils {
+    def script // Jenkins Pipeline context
+
+    DockerUtils(script) {
+        this.script = script
+    }
+
+    def dockerBuildAndPush(Map config) {
+        def imageName = config.imageName ?: 'default-image-sharedlibrary'
+        def tag = config.buildNumber ?: 'latest' // Default to latest if buildNumber is not passed
+        def dockerCredentialsId = config.dockerCredentialsId ?: 'docker-credentials'
+
+        script.echo "Building Docker image: ${imageName}:${tag}"
+
+        script.withCredentials([script.usernamePassword(credentialsId: dockerCredentialsId, 
+                                                        usernameVariable: 'DOCKER_USER', 
+                                                        passwordVariable: 'DOCKER_PASS')]) {
+            script.sh """
+                echo "Logging in to Docker Hub..."
+                echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+                
+                echo "Building Docker image: \$DOCKER_USER/${imageName}:${tag}"
+                docker build -t \$DOCKER_USER/${imageName}:${tag} .
+                
+                echo "Pushing Docker image to Docker Hub..."
+                docker push \$DOCKER_USER/${imageName}:${tag}
+
+                echo "Docker image pushed: \$DOCKER_USER/${imageName}:${tag}"
+            """
+        }
     }
 }
