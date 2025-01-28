@@ -35,7 +35,7 @@ class DockerUtils {
 
     def dockerBuildAndPush(Map config) {
         def registryUrl = config.registryUrl ?: 'https://index.docker.io/v1/' // Default to Docker Hub if not provided
-        def imageName = config.imageName ?: 'my-default-image'
+        def imageName = config.imageName ?: 'default-image-sharedlibrary'
         def tag = config.buildNumber ?: 'latest' // Default to latest if buildNumber is not passed
 
         script.echo "Building Docker image: ${registryUrl}/${imageName}:${tag}"
@@ -45,7 +45,8 @@ class DockerUtils {
                                                         passwordVariable: 'DOCKER_PASS')]) {
             script.sh """
                 echo "Logging in to Docker registry..."
-                echo \$DOCKER_PASS | docker login ${registryUrl} -u \$DOCKER_USER --password-stdin
+                //echo \$DOCKER_PASS | docker login ${registryUrl} -u \$DOCKER_USER --password-stdin
+                echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
                 docker build -t ${registryUrl}/${imageName}:${tag} .
                 docker push ${registryUrl}/${imageName}:${tag}
                 docker logout ${registryUrl}
