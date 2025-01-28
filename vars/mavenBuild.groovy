@@ -1,6 +1,7 @@
 import com.tkp1999.utils.*
 
 import com.tkp1999.utils.GitUtils
+import com.tkp1999.utils.DockerUtils
 
 /*
 def call(Map config) {
@@ -77,6 +78,13 @@ def call(body) {
     echo "Repo URL: ${config.repoUrl}"
     echo "Build Number: ${config.buildNumber}"
 
+    // added later
+   
+    echo "JDK Version: ${config.jdkVersion}"
+    echo "Maven Version: ${config.mavenVersion}"
+    echo "Docker Registry: ${config.dockerRegistry}"
+    echo "Image Name: ${config.imageName}"
+
     // Validation for parameters
     if (!config.repoUrl?.trim()) {
         error "Git repository URL is empty. Checkout requires a valid repository URL."
@@ -87,6 +95,15 @@ def call(body) {
 
     // Proceed with build process
     node {
+        //added on 28Jan
+        // use java and maven that is configured in tools section in jenkins gui
+        env.JAVA_HOME = tool config.jdkVersion
+        env.MAVEN_HOME = tool config.mavenVersion
+        env.PATH = "${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:${env.PATH}"
+
+        stage('Clean Workspace') {
+            deleteDir() // Deletes the workspace before new build
+        }
         // Checkout stage
         stage('Checkout') {
             script {
@@ -100,9 +117,25 @@ def call(body) {
 
         // Build stage
         stage('Build') {
+            
             echo "Building project with build number: ${config.buildNumber}"
+            sh "${env.MAVEN_HOME}/bin/mvn clean install -DskipTests -DbuildNumber=${config.buildNumber}"
             // Maven build command or any other required commands can be added here
             //sh "mvn clean install -DskipTests -DbuildNumber=${config.buildNumber}"
+        }
+        //to build docker image and push to dockerhub
+        stage('Docker Build & Push') {
+            script {
+                //def dockerUtils = new DockerUtils(this)
+                //dockerUtils.dockerbuild_and_push(config.dockerRegistry, config.imageName, config.buildNumber)
+                    def dockerUtils = new DockerUtils(this)
+                    dockerUtils.dockerBuildAndPush(
+                    registryUrl: config.registryUrl,
+                    imageName: config.imageName,
+                    buildNumber: config.buildNumber,
+                    dockerCredentialsId: config.dockerCredentialsId
+                )
+            }
         }
         
         // Add any other stages (e.g., test, deploy) as required.
