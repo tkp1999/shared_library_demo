@@ -27,3 +27,7 @@ node {
     }
 }
 
+############
+
+######working jenkinsfile#######
+
