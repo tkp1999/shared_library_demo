@@ -89,9 +89,9 @@ class DockerUtils {
                 echo "Logging in to Docker Hub..."
                 echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
                 
-                //echo "Building Docker image: \$DOCKER_USER/${imageName}:${tag}"
+                echo "Building Docker image: \$DOCKER_USER/${imageName}:${tag}"
                 docker build -t \$DOCKER_USER/${imageName}:${tag} .
-                docker build --no-cache -t  \$DOCKER_USER/${imageName}:${tag} .
+                
                 
                 echo "Pushing Docker image to Docker Hub..."
                 docker push \$DOCKER_USER/${imageName}:${tag}
