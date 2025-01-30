@@ -86,6 +86,18 @@ def call(body) {
     echo "Image Name: ${config.imageName}"
     echo "docker credentialsid: ${config.dockerCredentialsId}"
 
+    //give path of custom workspace directory
+
+    //def customWorkspace = "/var/lib/jenkins/workspace/${config.imageName}-${config.buildNumber}"
+    def customWorkspace = "/var/lib/jenkins/workspace/${config.imageName}"
+
+    echo "Using custom workspace: ${customWorkspace}"
+
+    // Apply build retention policy(keep only latest 10 builds)
+    properties([
+        buildDiscarder(logRotator(numToKeepStr: '10')) // Keep only the latest 10 builds
+    ])
+
     // Validation for parameters
     if (!config.repoUrl?.trim()) {
         error "Git repository URL is empty. Checkout requires a valid repository URL."
@@ -94,13 +106,7 @@ def call(body) {
         error "Branch is empty. Please specify a valid branch."
     }
 
-    //give path of custom workspace directory
-
-    // Define custom workspace directory (adjust path as needed)
-    //def customWorkspace = "/var/lib/jenkins/workspace/${config.imageName}-${config.buildNumber}"
-    def customWorkspace = "/var/lib/jenkins/workspace/${config.imageName}"
-
-    echo "Using custom workspace: ${customWorkspace}"
+    
 
     // Proceed with build process
     node {
@@ -147,7 +153,8 @@ def call(body) {
                 )
             }
         }
-        //stage to keep latest 10 builds and delete older builds
+        //stage to keep latest 10 builds and delete older build results
+        /*
         stage('Cleanup Old Builds Keep Latest 10') {
                 script {
                     def buildDir = "/var/lib/jenkins/workspace/${config.imageName}-*"
@@ -158,6 +165,7 @@ def call(body) {
                     """
                 }
             }
+            */
       } 
         
     }
