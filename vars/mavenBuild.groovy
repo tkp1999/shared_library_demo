@@ -147,6 +147,17 @@ def call(body) {
                 )
             }
         }
+        //stage to keep latest 10 builds and delete older builds
+        stage('Cleanup Old Builds Keep Latest 10') {
+                script {
+                    def buildDir = "/var/lib/jenkins/workspace/${config.imageName}-*"
+                    echo "Cleaning up old builds, keeping only the latest 10..."
+
+                    sh """
+                        ls -td ${buildDir} | tail -n +11 | xargs rm -rf || true
+                    """
+                }
+            }
       } 
         
     }
