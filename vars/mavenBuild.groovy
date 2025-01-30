@@ -94,8 +94,17 @@ def call(body) {
         error "Branch is empty. Please specify a valid branch."
     }
 
+    //give path of custom workspace directory
+
+    // Define custom workspace directory (adjust path as needed)
+    //def customWorkspace = "/var/lib/jenkins/workspace/${config.imageName}-${config.buildNumber}"
+    def customWorkspace = "/var/lib/jenkins/workspace/${config.imageName}"
+
+    echo "Using custom workspace: ${customWorkspace}"
+
     // Proceed with build process
     node {
+        ws(customWorkspace) {
         //added on 28Jan
         // use java and maven that is configured in tools section in jenkins gui
         env.JAVA_HOME = tool config.jdkVersion
@@ -138,8 +147,8 @@ def call(body) {
                 )
             }
         }
+      } 
         
-        // Add any other stages (e.g., test, deploy) as required.
     }
 }
 
