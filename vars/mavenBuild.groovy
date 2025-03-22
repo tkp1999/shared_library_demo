@@ -85,6 +85,9 @@ def call(body) {
     echo "Docker Registry: ${config.dockerRegistry}"
     echo "Image Name: ${config.imageName}"
     echo "docker credentialsid: ${config.dockerCredentialsId}"
+    echo "trivy image: ${config.trivyImage}"
+    echo "targetImage: ${config.targetImage}"
+    echo "reportFormat: ${config.reportFormat}"
 
     //give path of custom workspace directory
 
@@ -153,6 +156,18 @@ def call(body) {
                 )
             }
         }
+
+        // stage to scan trivy image
+        stage('Trivy Scan') {
+                script {
+                    def trivyScanner = new trivy_image_scan()
+                    trivyScanner.scanDockerImage(
+                        trivyImage: config.trivyImage,
+                        targetImage: config.targetImage,
+                        reportFormat: config.reportFormat
+                    )
+                }
+            }
         //stage to keep latest 10 builds and delete older build results
         
         stage('keeping only the latest 10 folders in jenkins workspace') {
@@ -170,4 +185,3 @@ def call(body) {
         
     }
 }
-
