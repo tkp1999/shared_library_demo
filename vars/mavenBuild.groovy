@@ -158,6 +158,7 @@ def call(body) {
         }
 
         // stage to scan trivy image
+        /*
         stage('Trivy Scan') {
                 script {
                     def trivyScanner = new trivy_image_scan()
@@ -168,6 +169,18 @@ def call(body) {
                     )
                 }
             }
+
+        */
+        stage('Trivy Scan') {
+        script {
+            def trivyScanner = new com.tkp1999.utils.trivy_image_scan(this)
+            trivyScanner.scanDockerImage(
+                config.trivyImage, 
+                config.targetImage, 
+                config.reportFormat
+            )
+        }
+    }
         //stage to keep latest 10 builds and delete older build results
         
         stage('keeping only the latest 10 folders in jenkins workspace') {
