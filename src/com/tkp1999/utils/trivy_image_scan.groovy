@@ -1,6 +1,6 @@
 package com.tkp1999.utils
 
-class TrivyImageScan {
+class trivy_image_scan {
     def script
 
     TrivyImageScan(script) {
