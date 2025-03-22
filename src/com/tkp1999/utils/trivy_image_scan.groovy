@@ -3,7 +3,7 @@ package com.tkp1999.utils
 class trivy_image_scan {
     def script
 
-    TrivyImageScan(script) {
+    trivy_image_scan(script) {
         this.script = script
     }
 
