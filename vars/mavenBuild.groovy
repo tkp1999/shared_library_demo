@@ -160,7 +160,7 @@ def call(body) {
         // stage to scan trivy image
         stage('Trivy Scan') {
                 script {
-                    def trivyScanner = new trivy_image_scan()
+                    def trivyScanner = new trivy_image_scan(this)
                     trivyScanner.scanDockerImage(
                         trivyImage: config.trivyImage,
                         targetImage: config.targetImage,
