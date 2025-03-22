@@ -1,23 +1,26 @@
 package com.tkp1999.utils
 
-def scanDockerImage(String trivyImage, String targetImage, String reportFormat) {
-    script {
+class TrivyImageScan {
+    def script
+
+    TrivyImageScan(script) {
+        this.script = script
+    }
+
+    def scanDockerImage(String trivyImage, String targetImage, String reportFormat) {
+        script.sh "docker pull ${trivyImage}"
         def outputFile = "report.${reportFormat}"
-        // pull docker image
-        sh "docker pull ${trivyImage}"
-        // Validate report format
         def validFormats = ["json", "html", "spdx", "csv", "table", "template", "sarif", "cyclonedx", "spdx-json", "github", "cosign-vuln"]
+        
         if (!validFormats.contains(reportFormat)) {
-            error "Invalid format! Supported formats: ${validFormats.join(', ')}"
+            script.error "Invalid format! Supported formats: ${validFormats.join(', ')}"
         }
 
-        // Run Trivy scan
-        sh """
+        script.sh """
             docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ${trivyImage} image --format ${reportFormat} --output ${outputFile} ${targetImage}
             echo "Scan completed. Report saved as ${outputFile}."
         """
-
-        // Remove Trivy Docker image after scan
-        sh "docker rmi ${trivyImage} || true"
+        
+        script.sh "docker rmi ${trivyImage} || true"
     }
 }
