@@ -9,7 +9,8 @@ class trivy_image_scan {
 
     def scanDockerImage(String trivyImage, String targetImage, String reportFormat) {
         script.sh "docker pull ${trivyImage}"
-        def outputFile = "report.${reportFormat}"
+        //def outputFile = "report.${reportFormat}"
+        def outputFile = "/reports/report.${reportFormat}" 
         def validFormats = ["json", "html", "spdx", "csv", "table", "template", "sarif", "cyclonedx", "spdx-json", "github", "cosign-vuln"]
         
         if (!validFormats.contains(reportFormat)) {
