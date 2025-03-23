@@ -17,7 +17,7 @@ class trivy_image_scan {
         }
 
         script.sh """
-            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ${trivyImage} image --format ${reportFormat} --output ${outputFile} ${targetImage}
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/reports ${trivyImage} image --format ${reportFormat} --output ${outputFile} ${targetImage}
             echo "Scan completed. Report saved as ${outputFile}."
             pwd
         """
