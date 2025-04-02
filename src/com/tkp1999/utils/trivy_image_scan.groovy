@@ -57,9 +57,6 @@ class trivy_image_scan {
         script.sh "ls -l /tmp"
     }
     */
-    package com.tkp1999.utils
-
-class trivy_image_scan {
     def script
 
     trivy_image_scan(script) {
@@ -91,5 +88,4 @@ class trivy_image_scan {
         script.sh "docker rmi ${trivyImage} || true"
         script.sh "ls -l /tmp"
     }
-}
 }
