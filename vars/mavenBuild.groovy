@@ -172,6 +172,8 @@ def call(body) {
 
         */
         stage('Trivy Scan') {
+        /*
+        
         script {
             def trivyScanner = new com.tkp1999.utils.trivy_image_scan(this)
             trivyScanner.scanDockerImage(
@@ -180,6 +182,15 @@ def call(body) {
                 config.reportFormat
             )
         }
+        */
+            script {
+                    def trivyScanner = new com.tkp1999.utils.trivy_image_scan(this)
+                    trivyScanner.scanDockerImage(
+                        config.trivyImage, 
+                        config.targetImage, 
+                        config.reportFormats.split(",")  // Convert string to list
+                    )
+                }
     }
         //stage to keep latest 10 builds and delete older build results
         
