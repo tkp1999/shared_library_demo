@@ -183,14 +183,15 @@ def call(body) {
             )
         }
         */
-            script {
-                    def trivyScanner = new com.tkp1999.utils.trivy_image_scan(this)
-                    trivyScanner.scanDockerImage(
-                        config.trivyImage, 
-                        config.targetImage, 
-                        config.reportFormats.split(",")  // Convert string to list
-                    )
-                }
+        script {
+        def trivyScanner = new com.tkp1999.utils.trivy_image_scan(this)
+        def reportFormatList = config.reportFormats.split(",") as List  // Explicitly convert to List
+        trivyScanner.scanDockerImage(
+            config.trivyImage, 
+            config.targetImage, 
+            reportFormatList
+        )
+    }
     }
         //stage to keep latest 10 builds and delete older build results
         
